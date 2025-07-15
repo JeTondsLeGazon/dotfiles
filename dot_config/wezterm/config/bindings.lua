@@ -27,7 +27,7 @@ local keys = {
    },
    { key = 'F11', mods = 'NONE',    action = act.ToggleFullScreen },
    { key = 'F12', mods = 'NONE',    action = act.ShowDebugOverlay },
-   { key = 'f',   mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
+   -- { key = 'f',   mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
    {
       key = 'u',
       mods = mod.SUPER_REV,
@@ -60,14 +60,13 @@ local keys = {
    -- tabs --
    -- tabs: spawn+close
    { key = 't',          mods = mod.SUPER,     action = act.SpawnTab('DefaultDomain') },
-   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Ubuntu' }) },
    { key = 'w',          mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
 
    -- tabs: navigation
    { key = '[',          mods = mod.SUPER,     action = act.ActivateTabRelative(-1) },
    { key = ']',          mods = mod.SUPER,     action = act.ActivateTabRelative(1) },
-   { key = '[',          mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
-   { key = ']',          mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
+   --{ key = '[',          mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
+   --{ key = ']',          mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
 
    -- tab: title
    { key = '0',          mods = mod.SUPER,     action = act.EmitEvent('tabs.manual-update-tab-title') },
@@ -107,53 +106,54 @@ local keys = {
          window:set_inner_size(new_width, new_height)
       end)
    },
-
+  { key = '+', mods = 'CTRL', action = wezterm.action.IncreaseFontSize },
+  { key = '-', mods = 'CTRL', action = wezterm.action.DecreaseFontSize },
    -- background controls --
-   {
-      key = [[/]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:random(window)
-      end),
-   },
-   {
-      key = [[,]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:cycle_back(window)
-      end),
-   },
-   {
-      key = [[.]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:cycle_forward(window)
-      end),
-   },
-   {
-      key = [[/]],
-      mods = mod.SUPER_REV,
-      action = act.InputSelector({
-         title = 'InputSelector: Select Background',
-         choices = backdrops:choices(),
-         fuzzy = true,
-         fuzzy_description = 'Select Background: ',
-         action = wezterm.action_callback(function(window, _pane, idx)
-            if not idx then
-               return
-            end
-            ---@diagnostic disable-next-line: param-type-mismatch
-            backdrops:set_img(window, tonumber(idx))
-         end),
-      }),
-   },
-   {
-      key = 'b',
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:toggle_focus(window)
-      end)
-   },
+   --{
+      --key = [[/]],
+      --mods = mod.SUPER,
+      --action = wezterm.action_callback(function(window, _pane)
+         --backdrops:random(window)
+      --end),
+   --},
+   --{
+      --key = [[,]],
+      --mods = mod.SUPER,
+      --action = wezterm.action_callback(function(window, _pane)
+         --backdrops:cycle_back(window)
+      --end),
+   --},
+   --{
+      ------key = [[.]],
+      --mods = mod.SUPER,
+      --action = wezterm.action_callback(function(window, _pane)
+         --backdrops:cycle_forward(window)
+      --end),
+   --},
+   --{
+      --key = [[/]],
+      --mods = mod.SUPER_REV,
+      --action = act.InputSelector({
+         --title = 'InputSelector: Select Background',
+         --choices = backdrops:choices(),
+         --fuzzy = true,
+         --fuzzy_description = 'Select Background: ',
+         --action = wezterm.action_callback(function(window, _pane, idx)
+            --if not idx then
+               --return
+            --end
+            -----@diagnostic disable-next-line: param-type-mismatch
+            --backdrops:set_img(window, tonumber(idx))
+         --end),
+      --}),
+   --},
+   -- {
+   --    key = 'b',
+   --    mods = mod.SUPER,
+   --    action = wezterm.action_callback(function(window, _pane)
+   --       backdrops:toggle_focus(window)
+   --    end)
+   -- },
 
    -- panes --
    -- panes: split panes
@@ -201,16 +201,32 @@ local keys = {
       }),
    },
    -- resize panes
-   {
-      key = 'p',
-      mods = 'LEADER',
-      action = act.ActivateKeyTable({
-         name = 'resize_pane',
-         one_shot = false,
-         timemout_miliseconds = 1000,
-      }),
-   },
+  {
+    key = 'h',
+    mods = 'LEADER',
+    action = act.AdjustPaneSize { 'Left', 20 },
+  },
+  {
+    key = 'j',
+    mods = 'LEADER',
+    action = act.AdjustPaneSize { 'Down', 20 },
+  },
+  { key = 'k', mods = 'LEADER', action = act.AdjustPaneSize { 'Up', 20 } },
+  {
+    key = 'l',
+    mods = 'LEADER',
+    action = act.AdjustPaneSize { 'Right', 20 },
+  },
 }
+for i = 1, 8 do
+   -- CTRL+ALT + number to activate that tab
+   table.insert(keys, {
+      key = tostring(i),
+      mods = mod.SUPER,
+      action = act.ActivateTab(i - 1),
+   })
+end
+
 
 -- stylua: ignore
 local key_tables = {
@@ -243,7 +259,7 @@ local mouse_bindings = {
 return {
    disable_default_key_bindings = true,
    -- disable_default_mouse_bindings = true,
-   leader = { key = 'Space', mods = mod.SUPER_REV },
+   leader = { key = 'a', mods = mod.SUPER },
    keys = keys,
    key_tables = key_tables,
    mouse_bindings = mouse_bindings,

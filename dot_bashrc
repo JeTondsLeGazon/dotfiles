@@ -1,0 +1,11 @@
+# GIT
+alias gs="git status"
+alias gl="git logo"
+alias ga="git add"
+alias gau="git add -u"
+alias gc="git commit"
+alias gp="git push"
+alias gcm="git commit -m"
+alias gco="git checkout"
+. "$HOME/snap/code/196/.local/share/../bin/env"
+
