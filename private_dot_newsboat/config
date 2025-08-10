@@ -1,0 +1,2 @@
+browser "firefox --new-tab %u"
+feed-sort-order firsttag

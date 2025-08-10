@@ -1,0 +1,37 @@
+# News
+https://www.rts.ch/info/toute-info/?format=rss/news "News"
+https://www.lemonde.fr/rss/une.xml "News"
+http://feeds.bbci.co.uk/news/rss.xml "News"
+https://www.hongkongfp.com/feed/ "News"
+https://www.rt.com/rss/ "News"
+http://feeds.foxnews.com/foxnews/latest "News"
+http://rss.cnn.com/rss/edition.rss "News"
+
+# Financial
+https://www.youtube.com/feeds/videos.xml?user=Bloomberg "Finance"
+https://www.forbes.com/business/feed/ "Finance"
+https://www.learntotradethemarket.com/feed "Finance"
+https://www.financialsamurai.com/feed/ "Finance"
+
+# Gaming
+https://www.gamespot.com/feeds/mashup/ "Gaming"
+
+# history
+http://www.historynet.com/feed "History"
+
+# Movies
+https://feeds2.feedburner.com/slashfilm "Movies"
+
+# Programming
+https://codeascraft.com/feed/atom/ "Programming"
+https://softwareengineeringdaily.com/category/podcast/feed "Programming"
+https://www.youtube.com/feeds/videos.xml?user=GoogleTechTalks "Programming"
+
+# Science
+https://www.nature.com/nature.rss "Science"
+http://rss.sciam.com/sciam/60secsciencepodcast "Science"
+https://flowingdata.com/feed "Science"
+https://www.nasa.gov/rss/dyn/breaking_news.rss "Science"
+
+# Tech
+https://news.ycombinator.com/rss "Tech"
