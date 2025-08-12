@@ -3,11 +3,11 @@ return {
   opts = {
     picker = {
       hidden = true,
-      ignored = true,
+      -- ignored = true,
       sources = {
         files = {
           hidden = true,
-          ignored = true,
+          -- ignored = true,
         },
       },
     },
