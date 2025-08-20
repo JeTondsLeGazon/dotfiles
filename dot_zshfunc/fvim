@@ -1,0 +1,10 @@
+function fvim(){
+  f
+  if [ -f "setup.cfg" ]; then
+    act
+    nvim .
+  else
+    # Otherwise, run nvim
+    uvim
+  fi
+}

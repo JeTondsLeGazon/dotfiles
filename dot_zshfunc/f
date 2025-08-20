@@ -1,0 +1,4 @@
+function f(){
+  # Uses fzf to go to specific directory in ~/checkout/
+  cd $(find ~/checkout/ -maxdepth 4 -type d -name ".git" -not -path "*/__*" -not -path "*/.venv*"  -exec dirname '{}' \; | fzf| xargs echo )
+}

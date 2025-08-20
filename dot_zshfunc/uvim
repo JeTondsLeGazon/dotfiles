@@ -1,0 +1,11 @@
+function uvim(){
+  if [ -f "service.env" ]; then
+    uv run --env-file service.env --no-sync nvim . 
+  else
+    if [ -f ".env" ]; then
+      uv run --no-sync --env-file .env nvim .
+    else
+      uv run --no-sync nvim .
+    fi
+  fi
+}
