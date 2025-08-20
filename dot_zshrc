@@ -91,10 +91,10 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-bat)
 source $ZSH/oh-my-zsh.sh
 
 # Aliases
-alias act="source .venv/bin/activate"
+alias act="[[ -d .venv/ ]] && source .venv/bin/activate"
 alias docker-compose="docker compose"
-alias uvim="uv run --no-sync nvim ."
 alias uva="uv sync --all-groups --all-extras"
+alias lzd="lazydocker"
 
 # GIT
 alias gs="git status"
@@ -112,17 +112,8 @@ alias gf="git fetch"
 alias gr="git rebase"
 alias grc="git rebase --continue"
 
-# Custom functions
-function f(){
-  # Uses fzf to go to specific directory in ~/checkout/
-  cd $(find ~/checkout/ -maxdepth 4 -type d -name ".git" -not -path "*/__*" -not -path "*/.venv*"  -exec dirname '{}' \; | fzf| xargs echo )
-}
-
-function dlog(){
-  # Uses fzf to select a docker container and then runs docker logs on it
-docker logs -f $(docker container ls -a --format '{{.Names}}' | fzf)
-}
-
+# Functions
+fpath=( ~/.zsh_functions "${fpath[@]}" )
 
 
 # User configuration
