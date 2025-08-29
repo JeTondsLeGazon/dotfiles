@@ -62,13 +62,14 @@ vim.keymap.set("x", "<leader>dy", function()
 end, { desc = "Send selection to REPL" })
 
 -- Python next class or function
-vim.keymap.set("n", "<leader>n", function()
+vim.keymap.set("n", "ü", function()
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
   local next_line = current_line + 1
   while next_line <= vim.api.nvim_buf_line_count(0) do
     local line = vim.api.nvim_buf_get_lines(0, next_line - 1, next_line, false)[1]
     if line:match("^%s*def ") or line:match("^%s*async def ") or line:match("^%s*class ") then
       vim.api.nvim_win_set_cursor(0, { next_line, 0 })
+      vim.cmd("norm! zz")
       return
     end
     next_line = next_line + 1
@@ -76,13 +77,14 @@ vim.keymap.set("n", "<leader>n", function()
 end, { desc = "Next class or function" })
 
 -- Python previous class or function
-vim.keymap.set("n", "<leader>N", function()
+vim.keymap.set("n", "è", function()
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
   local prev_line = current_line - 1
   while prev_line > 0 do
     local line = vim.api.nvim_buf_get_lines(0, prev_line - 1, prev_line, false)[1]
     if line:match("^%s*def ") or line:match("^%s*async def ") or line:match("^%s*class ") then
       vim.api.nvim_win_set_cursor(0, { prev_line, 0 })
+      vim.cmd("norm! zz")
       return
     end
     prev_line = prev_line - 1
