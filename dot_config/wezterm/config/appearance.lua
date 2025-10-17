@@ -12,7 +12,7 @@ return {
    underline_thickness = '1.5pt',
 
    -- cursor
-   animation_fps = 120,
+   animation_fps = 180,
    cursor_blink_ease_in = 'EaseOut',
    cursor_blink_ease_out = 'EaseOut',
    default_cursor_style = 'BlinkingBlock',
@@ -22,7 +22,7 @@ return {
    colors = colors,
 
    -- background
-   background = backdrops:initial_options(false), -- set to true if you want wezterm to start on focus mode
+   background = backdrops:initial_options(true), -- set to true if you want wezterm to start on focus mode
 
    -- scrollbar
    enable_scroll_bar = true,
@@ -32,7 +32,7 @@ return {
    hide_tab_bar_if_only_one_tab = false,
    use_fancy_tab_bar = false,
    tab_max_width = 25,
-   show_tab_index_in_tab_bar = false,
+   show_tab_index_in_tab_bar = true,
    switch_to_last_active_tab_when_closing_tab = true,
 
    -- window
@@ -49,14 +49,15 @@ return {
       -- font = fonts.font,
       -- font_size = fonts.font_size,
    },
-   -- inactive_pane_hsb = {
-   --    saturation = 0.9,
-   --    brightness = 0.65,
-   -- },
    inactive_pane_hsb = {
-      saturation = 1,
-      brightness = 1,
+      hue = 0.1,
+      saturation = 0.1,
+      brightness = 0.1,
    },
+   -- inactive_pane_hsb = {
+   --    saturation = 1,
+   --    brightness = 1,
+   -- },
 
    visual_bell = {
       fade_in_function = 'EaseIn',

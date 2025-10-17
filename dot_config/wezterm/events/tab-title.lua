@@ -322,10 +322,11 @@ M.setup = function(opts)
                { Text = 'Enter new name for tab' },
             }),
             action = wezterm.action_callback(function(_window, _pane, line)
+               local tab = window:active_tab()
+               local id = tab:tab_id()
+               local text = id + 1 .. ': ' .. (line or 'N/A')
                if line ~= nil then
-                  local tab = window:active_tab()
-                  local id = tab:tab_id()
-                  tab_list[id]:update_and_lock_title(line)
+                  tab_list[id]:update_and_lock_title(text)
                end
             end),
          }),
