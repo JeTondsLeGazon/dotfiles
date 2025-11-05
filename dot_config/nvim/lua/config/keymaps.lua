@@ -77,6 +77,20 @@ vim.keymap.set("n", "ü", function()
   end
 end, { desc = "Previous class or function" })
 
+-- FZF git commands
+vim.keymap.set(
+  "n",
+  "<leader>gb",
+  require("fzf-lua").git_bcommits,
+  { noremap = true, silent = true, desc = "Git FZF (B)commits" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>gs",
+  require("fzf-lua").git_status,
+  { noremap = true, silent = true, desc = "Git FZF (S)tatus" }
+)
+
 -- Snack explorer change focus
 -- vim.keymap.set(
 --   "n",

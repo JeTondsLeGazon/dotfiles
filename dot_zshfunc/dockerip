@@ -1,0 +1,5 @@
+#! /bin/bash
+
+function dockerip() {
+  docker inspect $(docker container ls --format "{{.Names}}" | fzf | xargs echo) | jq '.[0].NetworkSettings.Networks.[].IPAddress' -r | xargs echo -n | xclip -selection clipboard
+}

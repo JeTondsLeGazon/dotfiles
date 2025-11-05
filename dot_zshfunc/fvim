@@ -2,7 +2,7 @@ function fvim(){
   f
   if [ -f "setup.cfg" ]; then
     act
-    nvim .
+    nvim
   else
     # Otherwise, run nvim
     uvim

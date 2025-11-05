@@ -1,0 +1,3 @@
+function branch() {
+ git switch $(git branch -a | fzf | xargs echo)
+}

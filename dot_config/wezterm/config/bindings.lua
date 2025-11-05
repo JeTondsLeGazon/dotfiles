@@ -217,6 +217,13 @@ local keys = {
     mods = 'LEADER',
     action = act.AdjustPaneSize { 'Right', 20 },
   },
+
+  -- Activate Copy mode
+  {
+    key = 'c',
+    mods = 'LEADER',
+    action = act.ActivateCopyMode,
+  },
 }
 for i = 1, 8 do
    -- CTRL+ALT + number to activate that tab

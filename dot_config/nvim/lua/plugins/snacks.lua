@@ -11,5 +11,8 @@ return {
         },
       },
     },
+    explorer = {
+      auto_close = true,
+    },
   },
 }
