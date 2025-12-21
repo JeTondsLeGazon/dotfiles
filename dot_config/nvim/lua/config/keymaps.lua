@@ -174,3 +174,10 @@ local function show_git_file_history()
 end
 
 vim.keymap.set("n", "<leader>gk", show_git_file_history, { desc = "Show git file history" })
+
+vim.keymap.set(
+  "n",
+  "<leader>p",
+  "<Cmd>lua require'telescope'.extensions.project.project{ display_type = 'full' }<CR>",
+  { desc = "Project Manager" }
+)

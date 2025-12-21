@@ -224,7 +224,14 @@ local keys = {
     mods = 'LEADER',
     action = act.ActivateCopyMode,
   },
+  -- Activate QuickSelect mode
+  {
+    key = ' ',
+    mods = 'LEADER',
+    action = act.Search {CaseSensitiveString=""},
+  },
 }
+
 for i = 1, 8 do
    -- CTRL+ALT + number to activate that tab
    table.insert(keys, {
