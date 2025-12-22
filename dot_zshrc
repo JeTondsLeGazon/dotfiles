@@ -150,4 +150,6 @@ done
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # . "$HOME/snap/code/198/.local/share/../bin/env"
-. "$HOME/.local/bin/env"
+# . "$HOME/.local/bin/env"
+
+eval "$(zellij setup --generate-auto-start zsh)"
