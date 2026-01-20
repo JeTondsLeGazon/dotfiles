@@ -1,2 +1,6 @@
 [window]
   decorations='None'
+
+[font]
+normal = {family = 'Inconsolata', style = 'Regular'}
+size = 14
