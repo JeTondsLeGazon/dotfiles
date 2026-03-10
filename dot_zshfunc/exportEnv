@@ -1,0 +1,6 @@
+#! /bin/bash
+function eportEnv() {
+    file=$1
+    export $(grep -v '^#' $1 | xargs)
+  }
+

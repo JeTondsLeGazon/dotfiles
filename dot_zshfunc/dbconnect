@@ -1,0 +1,13 @@
+#! /bin/bash
+function dbconnect() {
+  INSTANCE=$(gum choose "local" "cloud")
+  if [ "$INSTANCE" = "local" ]; then
+    connect_to_db
+  else
+    script -q -c "mdlcli pg.get-password -e dev | tail -n +2 > /tmp/db_creds.sh"
+    source /tmp/db_creds.sh
+    DBS=$(psql -t -A -c "SELECT datname FROM pg_database;")
+    DB=$(echo "$DBS" | fzf)
+    rainfrog --username $PGUSER --password $PGPASSWORD --host $PGHOST  --database $DB --driver postgres --port 5432
+  fi
+}

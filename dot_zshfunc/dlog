@@ -1,3 +1,4 @@
+#! /bin/bash
 function dlog(){
   # Uses fzf to select a docker container and then runs docker logs on it
   docker logs -f $(docker ps --format '{{.Names}}' | fzf)

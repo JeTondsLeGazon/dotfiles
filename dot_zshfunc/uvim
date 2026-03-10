@@ -1,3 +1,4 @@
+#! /bin/bash
 function uvim(){
   if [ -f "service.env" ]; then
     uv run --env-file service.env --no-sync nvim 

@@ -1,14 +1,8 @@
-eval "$(zellij setup --generate-auto-start zsh)"
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 export ZSH="$HOME/.oh-my-zsh"
 
 
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=True 
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -19,17 +13,27 @@ export ZVM_VI_EDITOR="nvim"
 export K9S_EDITOR="nvim"
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
+#TODO: install them in ansible
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-bat zsh-vi-mode)
 source $ZSH/oh-my-zsh.sh
 
+
+# Secrets
+if [ -f ~/.secrets.sh ]; then
+  source ~/.secrets.sh
+fi
+
 # FZF
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi  
 
 # Aliases
 alias act="[[ -d .venv/ ]] && source .venv/bin/activate"
 alias docker-compose="docker compose"
 alias uva="uv sync --all-groups --all-extras; uv pip install debugpy"
-alias lzd="lazydocker"
+alias ld="lazydocker"
+alias lg="lazygit"
 alias todo="dooit"
 alias rf="ruff format"
 alias rc="ruff check"
@@ -51,16 +55,47 @@ alias gf="git fetch"
 alias gr="git rebase"
 alias grc="git rebase --continue"
 
+unalias grh
+function grh() {
+  git fetch
+  git reset --hard origin/$(git branch --show-current)
+}
+
 # Custom functions
 fpath=( ~/.zshfunc "${fpath[@]}" )
 for file in ~/.zshfunc/*; do
   autoload -Uz $file
 done
 
+# Confidential functions
+if [ -f ~/.zshfunc_confidential.sh ]; then
+  source ~/.zshfunc_confidential.sh
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Zellij pane title - show git repo name on directory change
+if [ -n "$ZELLIJ" ]; then
+  _zellij_update_pane_title() {
+    # Check if we're in a git repository
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+      # Get the repo name (last component of git root path)
+      local repo_name=$(basename "$(git rev-parse --show-toplevel)")
+      zellij action rename-pane "$repo_name" 2>/dev/null
+    else
+      # Fallback to current directory name
+      local dir_name=$(basename "$PWD")
+      zellij action rename-pane "$dir_name" 2>/dev/null
+    fi
+  }
+  
+  # Hook that runs whenever directory changes
+  chpwd_functions+=(_zellij_update_pane_title)
+  
+  # Also run on shell startup
+  _zellij_update_pane_title
+fi
 
 # . "$HOME/snap/code/198/.local/share/../bin/env"
 . "$HOME/.local/bin/env"
