@@ -2,6 +2,10 @@ return {
   "mfussenegger/nvim-dap-python",
   dependencies = { "mfussenegger/nvim-dap" },
   ft = "python",
+  keys = {
+    { "<leader>do", "<Cmd>lua require('dap').step_over()<CR>", desc = "Step over" },
+    { "<leader>dO", "<Cmd>lua require('dap').step_out()<CR>", desc = "Step out" },
+  },
   config = function()
     local dap_python = require("dap-python")
     local dap = require("dap")
