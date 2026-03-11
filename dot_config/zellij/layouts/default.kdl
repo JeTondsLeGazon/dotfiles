@@ -1,0 +1,14 @@
+layout {
+    default_tab_template {
+        floating_panes {
+            pane {
+                x "10%"
+                y "10%"
+                width "80%"
+                height "80%"
+                focus true
+            }
+        }
+        children
+    }
+}

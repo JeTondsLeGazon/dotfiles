@@ -97,7 +97,7 @@ keybinds clear-defaults=true {
         bind "n" { Search "down"; }
         bind "o" { SearchToggleOption "WholeWord"; }
         bind "p" { Search "up"; }
-        bind "Ctrl s" { SwitchToMode "normal"; }
+        bind "Alt Shift s" { SwitchToMode "normal"; }
         bind "w" { SearchToggleOption "Wrap"; }
     }
     session {
@@ -164,9 +164,9 @@ keybinds clear-defaults=true {
     shared_except "locked" "entersearch" "renametab" "renamepane" "session" "prompt" "tmux" {
         bind "Alt o" { SwitchToMode "session"; }
     }
-    shared_except "locked" "scroll" "search" "tmux" {
-        bind "Ctrl b" { SwitchToMode "tmux"; }
-    }
+     shared_except "locked" "scroll" "search" "tmux" {
+         bind "Alt Shift b" { SwitchToMode "tmux"; }
+     }
     shared_except "locked" "scroll" "entersearch" "renametab" "renamepane" "prompt" "tmux" {
         bind "Alt s" { SwitchToMode "scroll"; }
     }
@@ -192,45 +192,45 @@ keybinds clear-defaults=true {
     shared_among "pane" "tmux" {
         bind "x" { CloseFocus; SwitchToMode "normal"; }
     }
-    shared_among "scroll" "search" {
-        bind "PageDown" { PageScrollDown; }
-        bind "PageUp" { PageScrollUp; }
-        bind "left" { PageScrollUp; }
-        bind "down" { ScrollDown; }
-        bind "up" { ScrollUp; }
-        bind "right" { PageScrollDown; }
-        bind "Ctrl b" { PageScrollUp; }
-        bind "Ctrl c" { ScrollToBottom; SwitchToMode "normal"; }
-        bind "d" { HalfPageScrollDown; }
-        bind "Ctrl f" { PageScrollDown; }
-        bind "h" { PageScrollUp; }
+     shared_among "scroll" "search" {
+         bind "PageDown" { PageScrollDown; }
+         bind "PageUp" { PageScrollUp; }
+         bind "left" { PageScrollUp; }
+         bind "down" { ScrollDown; }
+         bind "up" { ScrollUp; }
+         bind "right" { PageScrollDown; }
+         bind "Alt Shift u" { PageScrollUp; }
+         bind "Alt Shift d" { ScrollToBottom; SwitchToMode "normal"; }
+          bind "d" { HalfPageScrollDown; }
+          bind "Alt Shift f" { PageScrollDown; }
+         bind "h" { PageScrollUp; }
         bind "j" { ScrollDown; }
         bind "k" { ScrollUp; }
         bind "l" { PageScrollDown; }
         bind "u" { HalfPageScrollUp; }
     }
-    entersearch {
-        bind "Ctrl c" { SwitchToMode "scroll"; }
-        bind "esc" { SwitchToMode "scroll"; }
-        bind "enter" { SwitchToMode "search"; }
-    }
-    shared_among "entersearch" "renametab" "renamepane" "prompt" "tmux" {
-        bind "Ctrl g" { SwitchToMode "locked"; }
-        bind "Ctrl h" { SwitchToMode "move"; }
-        bind "Ctrl n" { SwitchToMode "resize"; }
-        bind "Ctrl o" { SwitchToMode "session"; }
-        bind "Ctrl p" { SwitchToMode "pane"; }
-        bind "Alt p" { TogglePaneInGroup; }
-        bind "Ctrl q" { Quit; }
-        bind "Ctrl s" { SwitchToMode "scroll"; }
-        bind "Ctrl t" { SwitchToMode "tab"; }
-    }
+     entersearch {
+         bind "Alt Shift c" { SwitchToMode "scroll"; }
+         bind "esc" { SwitchToMode "scroll"; }
+         bind "enter" { SwitchToMode "search"; }
+     }
+     shared_among "entersearch" "renametab" "renamepane" "prompt" "tmux" {
+         bind "Alt Shift g" { SwitchToMode "locked"; }
+         bind "Alt Shift h" { SwitchToMode "move"; }
+         bind "Alt Shift n" { SwitchToMode "resize"; }
+         bind "Alt Shift o" { SwitchToMode "session"; }
+         bind "Alt Shift p" { SwitchToMode "pane"; }
+         bind "Alt p" { TogglePaneInGroup; }
+         bind "Alt Shift q" { Quit; }
+         bind "Alt Shift s" { SwitchToMode "scroll"; }
+         bind "Alt Shift t" { SwitchToMode "tab"; }
+     }
     renametab {
         bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
     }
-    shared_among "renametab" "renamepane" {
-        bind "Ctrl c" { SwitchToMode "normal"; }
-    }
+     shared_among "renametab" "renamepane" {
+         bind "Alt Shift c" { SwitchToMode "normal"; }
+     }
     renamepane {
         bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
     }
@@ -247,7 +247,7 @@ keybinds clear-defaults=true {
         bind "%" { NewPane "right"; SwitchToMode "normal"; }
         bind "," { SwitchToMode "renametab"; }
         bind "[" { SwitchToMode "scroll"; }
-        bind "Ctrl b" { Write 2; SwitchToMode "normal"; }
+         bind "Alt Shift b" { Write 2; SwitchToMode "normal"; }
         bind "c" { NewTab; SwitchToMode "normal"; }
         bind "h" { MoveFocus "left"; SwitchToMode "normal"; }
         bind "j" { MoveFocus "down"; SwitchToMode "normal"; }

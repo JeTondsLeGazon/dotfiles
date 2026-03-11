@@ -182,12 +182,10 @@ vim.keymap.set(
 
 -- Snack explorer change focus
 
-vim.keymap.set(
-  "n",
-  "<leader>p",
-  "<Cmd>lua require'telescope'.extensions.project.project{ display_type = 'full' }<CR>",
-  { desc = "Project Manager" }
-)
+-- Project management
+local project_manager = require("project_manager")
+vim.keymap.set("n", "<leader>ps", project_manager.switch_project, { desc = "Switch Project (restart)" })
+vim.keymap.set("n", "<leader>pf", project_manager.open_project_file, { desc = "Open File from Project" })
 
 vim.keymap.set("n", "<leader>cD", "<Cmd>Telescope diagnostics<CR>", { desc = "Diagnostics" })
 
