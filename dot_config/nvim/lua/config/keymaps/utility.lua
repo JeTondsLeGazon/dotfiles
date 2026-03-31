@@ -3,36 +3,82 @@
 -- Toggle terminal
 vim.keymap.set("n", "<leader>$", vim.cmd.ToggleTerm, { desc = "Toggle terminal" })
 vim.keymap.set("t", "<esc>", vim.cmd.ToggleTerm, { desc = "Close terminal" })
+vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { desc = "Exit terminal mode to normal mode" })
 
 -- Project management
 local project_manager = require("project_manager")
 vim.keymap.set("n", "<leader>ps", project_manager.switch_project, { desc = "Switch Project (restart)" })
 vim.keymap.set("n", "<leader>pf", project_manager.open_project_file, { desc = "Open File from Project" })
 
--- uv lock
+-- uv lock (streams progress via Snacks.notify)
 vim.keymap.set("n", "<leader>rl", function()
-  vim.notify("Running: uv lock", vim.log.levels.INFO)
-  vim.fn.jobstart("uv lock", {
-    on_exit = function(_, code, _)
-      if code == 0 then
-        vim.notify("uv lock completed successfully", vim.log.levels.INFO)
-      else
-        vim.notify("uv lock failed with code " .. code, vim.log.levels.ERROR)
+  local id = "uv_lock"
+  -- timeout=0 keeps the notification visible until the job finishes
+  Snacks.notify("Running uv lock…", { id = id, title = "uv lock", timeout = 0 })
+  vim.fn.jobstart({ "uv", "lock", "--verbose" }, {
+    stdout_buffered = false,
+    stderr_buffered = false,
+    on_stdout = function(_, data, _)
+      local text = vim.trim(table.concat(data, "\n"))
+      if text ~= "" then
+        vim.schedule(function()
+          Snacks.notify(text, { id = id, title = "uv lock", timeout = 0 })
+        end)
       end
+    end,
+    on_stderr = function(_, data, _)
+      local text = vim.trim(table.concat(data, "\n"))
+      if text ~= "" then
+        -- Strip DEBUG prefix for cleaner display
+        text = text:gsub("^DEBUG ", ""):gsub("\nDEBUG ", "\n")
+        vim.schedule(function()
+          Snacks.notify(text, { id = id, title = "uv lock", timeout = 0 })
+        end)
+      end
+    end,
+    on_exit = function(_, code, _)
+      vim.schedule(function()
+        if code == 0 then
+          Snacks.notify("Done!", { id = id, title = "uv lock", level = "info", timeout = 3000 })
+        else
+          Snacks.notify("Failed (exit " .. code .. ")", { id = id, title = "uv lock", level = "error", timeout = 5000 })
+        end
+      end)
     end,
   })
 end, { desc = "uv lock" })
 
--- Ruff format + check
+-- Ruff format + check (streams progress via Snacks.notify)
 vim.keymap.set("n", "<leader>rk", function()
-  vim.notify("Running: ruff format + ruff check --fix", vim.log.levels.INFO)
+  local id = "ruff"
+  Snacks.notify("Running ruff format + check…", { id = id, title = "ruff", timeout = 0 })
   vim.fn.jobstart("ruff format . && ruff check --fix .", {
-    on_exit = function(_, code, _)
-      if code == 0 then
-        vim.notify("Formatting completed successfully", vim.log.levels.INFO)
-      else
-        vim.notify("Formatting failed with code " .. code, vim.log.levels.ERROR)
+    stdout_buffered = false,
+    stderr_buffered = false,
+    on_stdout = function(_, data, _)
+      local text = vim.trim(table.concat(data, "\n"))
+      if text ~= "" then
+        vim.schedule(function()
+          Snacks.notify(text, { id = id, title = "ruff", timeout = 0 })
+        end)
       end
+    end,
+    on_stderr = function(_, data, _)
+      local text = vim.trim(table.concat(data, "\n"))
+      if text ~= "" then
+        vim.schedule(function()
+          Snacks.notify(text, { id = id, title = "ruff", timeout = 0 })
+        end)
+      end
+    end,
+    on_exit = function(_, code, _)
+      vim.schedule(function()
+        if code == 0 then
+          Snacks.notify("Done!", { id = id, title = "ruff", level = "info", timeout = 3000 })
+        else
+          Snacks.notify("Failed (exit " .. code .. ")", { id = id, title = "ruff", level = "error", timeout = 5000 })
+        end
+      end)
     end,
   })
 end, { desc = "Format (rf + rc --fix)" })
