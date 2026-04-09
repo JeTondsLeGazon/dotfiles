@@ -77,24 +77,35 @@ fi
 
 # Zellij pane title - show git repo name on directory change
 if [ -n "$ZELLIJ" ]; then
+  _zellij_last_pane_title=""
+
   _zellij_update_pane_title() {
-    # Check if we're in a git repository
+    local new_title
     if git rev-parse --git-dir > /dev/null 2>&1; then
-      # Get the repo name (last component of git root path)
-      local repo_name=$(basename "$(git rev-parse --show-toplevel)")
-      zellij action rename-pane "$repo_name" 2>/dev/null
+      new_title=$(basename "$(git rev-parse --show-toplevel)")
     else
-      # Fallback to current directory name
-      local dir_name=$(basename "$PWD")
-      zellij action rename-pane "$dir_name" 2>/dev/null
+      new_title=$(basename "$PWD")
+    fi
+    # Only rename if the title actually changed
+    if [[ "$new_title" != "$_zellij_last_pane_title" ]]; then
+      _zellij_last_pane_title="$new_title"
+      # Reset pane name first to clear any stale/persisted name
+      zellij action undo-rename-pane 2>/dev/null
+      zellij action rename-pane "$new_title" 2>/dev/null
     fi
   }
-  
-  # Hook that runs whenever directory changes
-  chpwd_functions+=(_zellij_update_pane_title)
-  
-  # Also run on shell startup
-  _zellij_update_pane_title
+
+  # Guard against duplicate registration
+  if [[ ${chpwd_functions[(r)_zellij_update_pane_title]:-} != "_zellij_update_pane_title" ]]; then
+    chpwd_functions+=(_zellij_update_pane_title)
+  fi
+
+  # On startup, delay briefly to let zellij finish pane initialization
+  # (avoids name doubling on session resurrection with start_suspended)
+  {
+    sleep 0.2
+    _zellij_update_pane_title
+  } &!
 fi
 
 # . "$HOME/snap/code/198/.local/share/../bin/env"
@@ -102,3 +113,31 @@ fi
 
 # opencode
 export PATH=/home/hugo/.opencode/bin:$PATH
+
+# Zellij session management
+## resurect zellij session
+function res() {
+  SESSION=$1
+  if [ -n "$ZELLIJ" ]; then
+    echo "Already inside Zellij session, skipping session prompt."
+    return
+  fi
+  if [ -z "$SESSION" ]; then
+    SESSION="work"
+  fi
+  zellij attach "$SESSION" -c
+}
+
+## recreate zellij session
+function rec() {
+  SESSION=$1
+  if [ -n "$ZELLIJ" ]; then
+    echo "Already inside Zellij session, skipping session prompt."
+    return
+  fi
+  if [ -z "$SESSION" ]; then
+    SESSION="work"
+  fi
+  zellij delete-session work 2>/dev/null
+  zellij attach "$SESSION" -c
+}
