@@ -3,6 +3,7 @@ return {
   lazy = true,
   opts = {
     style = "night",
+    transparent = true,
     on_colors = function(colors)
       colors.comment = "#98999E"
       colors.documentation = "#98999E"
