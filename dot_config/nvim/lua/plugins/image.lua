@@ -18,6 +18,12 @@ return {
           -- Delete the buffer so you don't see binary garbage
           vim.defer_fn(function()
             if vim.api.nvim_buf_is_valid(event.buf) then
+              local alt = vim.fn.bufnr("#")
+              if alt ~= -1 and alt ~= event.buf and vim.api.nvim_buf_is_valid(alt) then
+                vim.cmd("buffer " .. alt)
+              else
+                vim.cmd("enew")
+              end
               vim.cmd("bdelete! " .. event.buf)
             end
           end, 100)

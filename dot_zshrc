@@ -81,11 +81,20 @@ if [ -n "$ZELLIJ" ]; then
 
   _zellij_update_pane_title() {
     local new_title
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-      new_title=$(basename "$(git rev-parse --show-toplevel)")
+    
+    # Check if we're in an SSH session
+    if [[ -n "$SSH_CONNECTION" ]]; then
+      # We're in SSH - show "[ssh] servername"
+      new_title="[ssh] $(hostname -s)"
     else
-      new_title=$(basename "$PWD")
+      # Local session - use existing logic (git repo or directory)
+      if git rev-parse --git-dir > /dev/null 2>&1; then
+        new_title=$(basename "$(git rev-parse --show-toplevel)")
+      else
+        new_title=$(basename "$PWD")
+      fi
     fi
+    
     # Only rename if the title actually changed
     if [[ "$new_title" != "$_zellij_last_pane_title" ]]; then
       _zellij_last_pane_title="$new_title"
