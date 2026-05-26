@@ -31,9 +31,12 @@ vim.keymap.set("n", "ü", function()
 end, { desc = "Previous class or function" })
 
 -- Search and Grep (Snacks picker)
-vim.keymap.set("n", "fs", function()
-  Snacks.picker.grep({ cwd = vim.fn.getcwd() })
-end, { desc = "Live Grep (Project Root)" })
+vim.keymap.set(
+  "n",
+  "fs",
+  ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+  { desc = "Live Grep (Project Root)" }
+)
 
 vim.keymap.set("n", "fl", function()
   Snacks.picker.grep({ cwd = vim.fn.expand("%:p:h") })
