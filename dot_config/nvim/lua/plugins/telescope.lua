@@ -11,7 +11,34 @@ return {
 
     -- first setup telescope
     telescope.setup({
-      -- your config
+      pickers = {
+        live_grep = {
+          file_ignore_patterns = { "node_modules", ".git", ".venv" },
+          additional_args = function(_)
+            return { "--hidden" }
+          end,
+        },
+        find_files = {
+          file_ignore_patterns = { "node_modules", ".git", ".venv" },
+          hidden = true,
+        },
+      },
+      extensions = {
+        "fzf",
+      },
+      defaults = {
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--hidden",
+          "--smart-case",
+        },
+        --- some more stuff
+      },
     })
 
     -- then load the extension
