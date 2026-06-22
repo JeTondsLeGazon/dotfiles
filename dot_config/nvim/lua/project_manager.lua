@@ -117,7 +117,7 @@ function M.open_project_file()
                       "bash",
                       "-c",
                       string.format(
-                        "find '%s' -type f \\( -path '*/.*' ! -path '*/.teamcity/*' -prune \\) -o -type f -print 2>/dev/null | grep -v '/\\.' | head -5000",
+                        "find '%s' -type d \\( -name '.git' -o -name '.venv*' \\) -prune -o -type f -print 2>/dev/null | head -5000",
                         project_path
                       ),
                     }
