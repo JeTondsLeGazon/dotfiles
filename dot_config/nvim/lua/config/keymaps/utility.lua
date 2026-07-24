@@ -1,7 +1,7 @@
 -- Utility keymaps: terminal, project management, runners, restarts
 
 -- Toggle terminal
-vim.keymap.set("n", "<leader>$", vim.cmd.ToggleTerm, { desc = "Toggle terminal" })
+vim.keymap.set("n", "<leader>\\", vim.cmd.ToggleTerm, { desc = "Toggle terminal" })
 vim.keymap.set("t", "<esc>", vim.cmd.ToggleTerm, { desc = "Close terminal" })
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { desc = "Exit terminal mode to normal mode" })
 

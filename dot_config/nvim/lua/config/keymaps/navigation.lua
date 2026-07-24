@@ -58,3 +58,13 @@ end
 for i = 0, 25 do
   vim.keymap.set("n", "'" .. low(i), "'" .. upp(i))
 end
+
+-- Remap \ to go to end of line (like $)
+vim.keymap.set({ "n", "v" }, "\\", "$", { desc = "Go to end of line" })
+
+-- Remap = to go to first non-blank character of line (like ^)
+vim.keymap.set({ "n", "v" }, "=", "^", { desc = "Go to beginning of line" })
+
+-- Window resize with larger steps (5 columns)
+vim.keymap.set("n", "<C-w>>", "5<C-w>>", { desc = "Increase window width" })
+vim.keymap.set("n", "<C-w><", "5<C-w><", { desc = "Decrease window width" })

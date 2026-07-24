@@ -146,8 +146,8 @@ keybinds clear-defaults=true {
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
-        bind "Alt [" { PreviousSwapLayout; }
-        bind "Alt ]" { NextSwapLayout; }
+        bind "Alt Shift h" { PreviousSwapLayout; }
+        bind "Alt Shift l" { NextSwapLayout; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Alt h" { MoveFocus "left"; }
         bind "Alt j" { MoveFocus "down"; }
@@ -215,9 +215,8 @@ keybinds clear-defaults=true {
          bind "enter" { SwitchToMode "search"; }
      }
      shared_among "entersearch" "renametab" "renamepane" "prompt" "tmux" {
-         bind "Alt Shift g" { SwitchToMode "locked"; }
-         bind "Alt Shift h" { SwitchToMode "move"; }
-         bind "Alt Shift n" { SwitchToMode "resize"; }
+          bind "Alt Shift g" { SwitchToMode "locked"; }
+          bind "Alt Shift n" { SwitchToMode "resize"; }
          bind "Alt Shift o" { SwitchToMode "session"; }
          bind "Alt Shift p" { SwitchToMode "pane"; }
          bind "Alt p" { TogglePaneInGroup; }
@@ -287,6 +286,10 @@ load_plugins {
 web_client {
     font "monospace"
 }
+
+// options {
+//   default_layout "compact"
+// }
  
 // Use a simplified UI without special fonts (arrow glyphs)
 // Options:
@@ -298,7 +301,7 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-// theme "dracula"
+theme "kanagawa"
  
 // Choose the base input mode of zellij.
 // Default: normal
@@ -513,8 +516,7 @@ scrollback_editor "/usr/bin/nvim"
  
 // Whether to stack panes when resizing beyond a certain size
 // Default: true
-// 
-// stacked_resize false
+stacked_resize false
  
 // Whether to show tips on startup
 // Default: true
@@ -528,7 +530,7 @@ show_startup_tips false
  
 // Whether to enable mouse hover effects and pane grouping functionality
 // default is true
-// advanced_mouse_actions false
+advanced_mouse_actions false
  
 // The ip address the web server should listen on when it starts
 // Default: "127.0.0.1"
