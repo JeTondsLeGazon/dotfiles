@@ -13,14 +13,9 @@ return {
       {
         "<leader>dT",
         function()
-          dap_args.justMyCode = false
           require("neotest").run.run({ strategy = "dap" })
-          -- Restore after DAP has read the config
-          vim.defer_fn(function()
-            dap_args.justMyCode = true
-          end, 1000)
         end,
-        desc = "Debug nearest test (step into libraries)",
+        desc = "Debug nearest test",
       },
     },
     opts = {
