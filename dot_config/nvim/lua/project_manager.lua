@@ -26,6 +26,50 @@ local function get_projects()
   return projects
 end
 
+-- Open a project in a new tab with its own working directory.
+function M.open_project_in_tab(project_path)
+  vim.cmd.tabnew()
+  vim.cmd.tcd({ args = { project_path } })
+  vim.t.project_name = vim.fs.basename(project_path)
+end
+
+function M.open_project_tab()
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
+  local conf = require("telescope.config").values
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
+
+  local projects = get_projects()
+  if #projects == 0 then
+    vim.notify("No projects found in ~/checkout", vim.log.levels.WARN)
+    return
+  end
+
+  pickers
+    .new({}, {
+      prompt_title = "Open Project in New Tab",
+      finder = finders.new_table({
+        results = projects,
+      }),
+      previewer = conf.file_previewer({}),
+      sorter = conf.generic_sorter({}),
+      attach_mappings = function(prompt_bufnr)
+        actions.select_default:replace(function()
+          local selection = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          if not selection then
+            return
+          end
+
+          M.open_project_in_tab(selection.value)
+        end)
+        return true
+      end,
+    })
+    :find()
+end
+
 -- Switch to a different project (change cwd and close all buffers)
 function M.switch_project()
   local pickers = require("telescope.pickers")
@@ -160,5 +204,4 @@ function M.open_project_file()
 end
 
 return M
-
 
