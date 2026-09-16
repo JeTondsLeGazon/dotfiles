@@ -8,7 +8,6 @@ vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { desc = "Exit terminal mode to norm
 -- Project management
 local project_manager = require("project_manager")
 vim.keymap.set("n", "<leader>ps", project_manager.switch_project, { desc = "Switch Project (restart)" })
-vim.keymap.set("n", "<leader>pt", project_manager.open_project_tab, { desc = "Open Project in New Tab" })
 vim.keymap.set("n", "<leader>pf", project_manager.open_project_file, { desc = "Open File from Project" })
 
 -- uv lock (streams progress via Snacks.notify)
