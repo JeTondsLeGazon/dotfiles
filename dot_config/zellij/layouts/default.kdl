@@ -1,4 +1,14 @@
 layout {
+    swap_floating_layout {
+      floating_panes {
+          pane  {
+            x "10%"
+            y "10%"
+            width "80%"
+            height "80%"
+          }
+      }
+    }
 
     swap_tiled_layout name="side-by-side" {
         tab max_panes=2 {

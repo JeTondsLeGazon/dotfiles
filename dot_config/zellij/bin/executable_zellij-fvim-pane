@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ -z ${ZELLIJ:-} || -z ${ZELLIJ_PANE_ID:-} ]]; then
+  printf 'zellij-fvim-pane must run inside Zellij.\n' >&2
+  exit 1
+fi
+
+if ! command -v zellij >/dev/null 2>&1; then
+  printf 'zellij-fvim-pane requires zellij.\n' >&2
+  exit 1
+fi
+
+if [[ ! $ZELLIJ_PANE_ID =~ ^[0-9]+$ ]]; then
+  printf 'Unable to determine the fvim pane ID.\n' >&2
+  exit 1
+fi
+
+zellij action toggle-fullscreen --pane-id "terminal_$ZELLIJ_PANE_ID"
+exec zsh -ic fvim

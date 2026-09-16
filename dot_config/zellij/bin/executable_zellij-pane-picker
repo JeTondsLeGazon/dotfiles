@@ -1,0 +1,66 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ -z ${ZELLIJ:-} || -z ${ZELLIJ_PANE_ID:-} ]]; then
+  printf 'zellij-pane-picker must run inside Zellij.\n' >&2
+  exit 1
+fi
+
+for command in zellij jq fzf; do
+  if ! command -v "$command" >/dev/null 2>&1; then
+    printf 'zellij-pane-picker requires %s.\n' "$command" >&2
+    exit 1
+  fi
+done
+
+if [[ -n ${ZELLIJ_PANES_JSON:-} ]]; then
+  panes=$(<"$ZELLIJ_PANES_JSON")
+else
+  panes=$(zellij action list-panes --json)
+fi
+
+tab_id=$(jq -er --argjson pane_id "$ZELLIJ_PANE_ID" '.[] | select(.is_plugin == false and .id == $pane_id) | .tab_id' <<<"$panes") || {
+  printf 'Unable to determine the current Zellij tab.\n' >&2
+  exit 1
+}
+
+was_fullscreen=$(jq -r --argjson tab_id "$tab_id" --argjson pane_id "$ZELLIJ_PANE_ID" '
+  any(.[]; .tab_id == $tab_id and .id != $pane_id and .is_plugin == false and .is_fullscreen == true)
+' <<<"$panes")
+
+candidates=$(jq -r --argjson tab_id "$tab_id" --argjson pane_id "$ZELLIJ_PANE_ID" '
+  .[]
+  | select(
+      .tab_id == $tab_id
+      and .id != $pane_id
+      and .is_plugin == false
+      and .is_selectable == true
+      and .exited == false
+    )
+  | [
+      (.id | tostring),
+      (.title // ""),
+      (.pane_command // ""),
+      (.pane_cwd // "")
+    ]
+  | @tsv
+' <<<"$panes")
+
+if [[ -z $candidates ]]; then
+  printf 'No other terminal panes in this tab.\n'
+  sleep 1
+  exit 0
+fi
+
+selection=$(fzf \
+  --delimiter=$'\t' \
+  --with-nth=2.. \
+  --prompt='Pane> ' \
+  --header=$'TITLE\tCOMMAND\tCWD' \
+  <<<"$candidates") || exit 0
+
+pane_id=${selection%%$'\t'*}
+zellij action focus-pane-id "terminal_$pane_id"
+if [[ $was_fullscreen == true ]]; then
+  zellij action toggle-fullscreen --pane-id "terminal_$pane_id"
+fi

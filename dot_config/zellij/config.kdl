@@ -21,10 +21,25 @@ keybinds clear-defaults=true {
         bind "k" { MoveFocus "up"; }
         bind "l" { MoveFocus "right"; }
         bind "n" { NewPane; SwitchToMode "normal"; }
-        bind "p" { SwitchFocus; }
+        bind "p" {
+            Run "/home/hugo/.config/zellij/bin/zellij-pane-picker" {
+                close_on_exit true
+                floating true
+                height "60%"
+                name "Select pane"
+                width "80%"
+            }
+            SwitchToMode "normal"
+        }
         bind "Alt p" { SwitchToMode "normal"; }
         bind "r" { NewPane "right"; SwitchToMode "normal"; }
         bind "s" { NewPane "stacked"; SwitchToMode "normal"; }
+        bind "v" {
+            Run "/home/hugo/.config/zellij/bin/zellij-fvim-pane" {
+                name "fvim"
+            }
+            SwitchToMode "normal"
+        }
         bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
         bind "z" { TogglePaneFrames; SwitchToMode "normal"; }
     }
