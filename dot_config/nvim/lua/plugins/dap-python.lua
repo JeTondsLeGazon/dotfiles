@@ -5,6 +5,13 @@ return {
   keys = {
     { "<leader>do", "<Cmd>lua require('dap').step_over()<CR>", desc = "Step over" },
     { "<leader>dO", "<Cmd>lua require('dap').step_out()<CR>", desc = "Step out" },
+    {
+      "<leader>td",
+      function()
+        require("dap-python").test_method()
+      end,
+      desc = "Debug Nearest",
+    },
   },
   config = function()
     local dap_python = require("dap-python")

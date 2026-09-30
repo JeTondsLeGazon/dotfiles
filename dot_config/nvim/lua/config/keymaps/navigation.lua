@@ -1,5 +1,30 @@
 -- Navigation keymaps: Python class/function jumping, search/grep, marks
 
+vim.keymap.set("n", "gf", function()
+  local target = vim.fn.expand("<cfile>")
+  local candidates = {}
+
+  if vim.startswith(target, "/") then
+    candidates = { vim.fs.normalize(target) }
+  else
+    local buffer_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
+    candidates = { vim.fs.joinpath(buffer_dir, target) }
+    for parent in vim.fs.parents(buffer_dir) do
+      candidates[#candidates + 1] = vim.fs.joinpath(parent, target)
+    end
+  end
+
+  for _, candidate in ipairs(candidates) do
+    candidate = vim.fs.normalize(candidate)
+    if vim.fn.filereadable(candidate) == 1 then
+      vim.cmd.edit(vim.fn.fnameescape(candidate))
+      return
+    end
+  end
+
+  vim.cmd.normal({ "gf", bang = true })
+end, { desc = "Open file relative to buffer ancestor" })
+
 -- Python next class or function
 vim.keymap.set("n", "è", function()
   local current_line = vim.api.nvim_win_get_cursor(0)[1]
