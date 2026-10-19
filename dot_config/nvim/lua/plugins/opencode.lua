@@ -9,7 +9,7 @@ return {
   config = function()
     -- Shared terminal command + opts so the plugin's auto-start and the
     -- toggle keymap reuse a single opencode terminal instance.
-    local opencode_cmd = "opencode --port"
+    local opencode_cmd = "opencode"
     ---@type snacks.terminal.Opts
     local snacks_terminal_opts = { win = { position = "right", enter = false } }
 
