@@ -90,7 +90,7 @@ vim.keymap.set("n", "<leader>ur", function()
 end, { desc = "Restart Neovim" })
 
 -- Restart LSP + Enable Copilot
-vim.keymap.set("n", "<leader>uL", ":LspRestart<CR>", { desc = "Restart LSP" })
+vim.keymap.set("n", "<leader>uL", "<Cmd>lsp restart<CR>", { desc = "Restart LSP" })
 -- vim.keymap.set("n", "<leader>uL", function()
 --   vim.notify("Restarting LSP and enabling Copilot", vim.log.levels.INFO)
 --   vim.cmd("LspRestart")
