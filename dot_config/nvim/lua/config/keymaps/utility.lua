@@ -89,11 +89,18 @@ vim.keymap.set("n", "<leader>ur", function()
   vim.cmd("qa!")
 end, { desc = "Restart Neovim" })
 
--- Restart LSP + Enable Copilot
-vim.keymap.set("n", "<leader>uL", "<Cmd>lsp restart<CR>", { desc = "Restart LSP" })
--- vim.keymap.set("n", "<leader>uL", function()
---   vim.notify("Restarting LSP and enabling Copilot", vim.log.levels.INFO)
---   vim.cmd("LspRestart")
---   -- vim.cmd("Copilot enable")
---   vim.notify("LSP restarted and Copilot enabled", vim.log.levels.INFO)
--- end, { desc = "Restart LSP + Enable Copilot" })
+-- Restart active LSPs even when the current buffer is a terminal or dashboard.
+vim.keymap.set("n", "<leader>uL", function()
+  local names = {}
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    names[client.name] = true
+  end
+
+  local active_names = vim.tbl_keys(names)
+  if #active_names == 0 then
+    vim.notify("No active LSP clients to restart", vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd("lsp restart " .. table.concat(active_names, " "))
+end, { desc = "Restart active LSPs" })
