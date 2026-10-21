@@ -1,0 +1,10 @@
+[bar.main]
+end = ["media", "tray", "global-protect", "notifications", "clipboard", "network", "bluetooth", "volume", "brightness", "battery", "control-center", "session"]
+
+[widget.global-protect]
+type = "custom_button"
+glyph = "shield-lock"
+tooltip = "Connect to GlobalProtect VPN"
+
+[widget.global-protect.actions]
+left = "exec systemctl --no-ask-password start globalprotect-connect.service"
