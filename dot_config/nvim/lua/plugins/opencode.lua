@@ -27,12 +27,12 @@ return {
     vim.o.autoread = true
 
     -- Recommended/example keymaps.
-    -- vim.keymap.set({ "n", "x" }, "<C-a>", function()
-    --   require("opencode").ask("@this: ", { submit = true })
-    -- end, { desc = "Ask opencode…" })
-    -- vim.keymap.set({ "n", "x" }, "<C-x>", function()
-    --   require("opencode").select()
-    -- end, { desc = "Execute opencode action…" })
+    vim.keymap.set({ "n", "x" }, "<leader>at", function()
+      require("opencode").ask("@this: ", { submit = true })
+    end, { desc = "Ask opencode…" })
+    vim.keymap.set({ "n", "x" }, "<leader>aa", function()
+      require("opencode").select()
+    end, { desc = "Execute opencode action…" })
     -- Note: opencode.nvim 1.0.x removed `require("opencode").toggle()`.
     -- Toggle the embedded terminal via snacks.terminal instead.
     -- `t` mode is intentionally omitted: a <leader> map in terminal mode
@@ -41,12 +41,12 @@ return {
       require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
     end, { desc = "Toggle opencode" })
 
-    -- vim.keymap.set({ "n", "x" }, "go", function()
-    --   return require("opencode").operator("@this ")
-    -- end, { desc = "Add range to opencode", expr = true })
-    -- vim.keymap.set("n", "goo", function()
-    --   return require("opencode").operator("@this ") .. "_"
-    -- end, { desc = "Add line to opencode", expr = true })
+    vim.keymap.set({ "n", "x" }, "go", function()
+      return require("opencode").operator("@this ")
+    end, { desc = "Add range to opencode", expr = true })
+    vim.keymap.set("n", "goo", function()
+      return require("opencode").operator("@this ") .. "_"
+    end, { desc = "Add line to opencode", expr = true })
     --
     vim.keymap.set("n", "<leader>au", function()
       require("opencode").command("session.half.page.up")
