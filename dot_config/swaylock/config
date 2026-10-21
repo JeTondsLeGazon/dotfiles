@@ -1,0 +1,16 @@
+# Effets visuels (Requiert swaylock-effects)
+image=/home/hugo/Pictures/Wallpaper/windmill.webp
+effect-blur=7x5
+fade-in=0.2
+
+# Configuration de l'indicateur "bizarre" / imposant
+indicator
+indicator-radius=120
+indicator-thickness=15
+
+# Palette de couleurs customisées
+inside-color=00000088
+ring-color=ff00ffaa
+key-hl-color=00ffffff
+text-color=ffffffff
+
